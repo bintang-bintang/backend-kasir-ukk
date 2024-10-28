@@ -5,8 +5,8 @@
 ---
 
 ## Cara Memulai (Instalasi)
-* git clone https://github.com/bintang-bintang/template-nodejs.git
-* cd template-nodejs
+* git clone https://github.com/bintang-bintang/be-coffee-ukk.git
+* cd be-coffee-ukk
 * npm install
 <br/>
 

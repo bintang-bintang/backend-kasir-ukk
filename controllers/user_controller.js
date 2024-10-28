@@ -31,8 +31,8 @@ exports.addUser = async (req, res) => {
         });
 
         res.status(201).json(userBaru);
-    } catch (err) {
-        res.status(500).json({ message: err.message });
+    } catch (error) {
+        res.json({ message: error.message });
     }
 };
 

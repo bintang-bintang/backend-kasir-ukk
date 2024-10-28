@@ -8,7 +8,7 @@ const { IsAdmin } = require("../middlewares/role_validation");
 
 
 
-router.post("/add", authorize, IsAdmin, userController.addUser);
+router.post("/add",  userController.addUser);
 router.put("/upd/:id", userController.editUser);
 router.get("/", userController.getUsers);
 router.get("/:id", userController.getUser);

@@ -2,25 +2,32 @@ const express = require('express');
 const app = express();
 
 const cors = require('cors');
-
 const dotenv = require('dotenv');
 dotenv.config();
+const path = require('path');
 
 const mongoose = require('mongoose');
 
 app.use(cors());
 app.use(express.json());
 
-// MongoDB connection
+// Melayani file statis dari direktori img
+app.use('/img', express.static(path.join(__dirname, 'img')));
 
+// MongoDB connection
 // ===============================================================================================
 
 const userRoutes = require('./routes/user_routes');
 app.use('/user', userRoutes);
 
+const mejaRoutes = require('./routes/meja_routes');
+app.use('/meja', mejaRoutes);
+
+const menuRoutes = require('./routes/menu_routes');
+app.use('/menu', menuRoutes);
+
 const authRoutes = require('./routes/auth_routes');
 app.use('/auth', authRoutes);
-
 
 app.get('/', (req, res) => {
     res.send('App API is running');
@@ -39,4 +46,3 @@ mongoose.
         });
     })
     .catch((err) => console.error('MongoDB connection error:', err));
-
