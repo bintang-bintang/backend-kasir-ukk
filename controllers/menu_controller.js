@@ -11,6 +11,29 @@ const upload = require("../utils/upload_image").single("gambar_menu");
 4. Delete menu
 */
 
+exports.nota = async (req, res) => {
+    try {
+        let htmlResponse = `
+        <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Coba HTML</h1>
+    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus, quo!</p>
+</body>
+</html>
+        `;
+
+        res.send(htmlResponse);
+    } catch (error) {
+        res.status(500).json({ message: error });
+    }
+};
+
 exports.createMenu = async (req, res) => {
     try {
         upload(req, res, async (err) => {

@@ -12,6 +12,7 @@ router.post("/add",  mejaController.createMeja);
 router.put("/upd/:id", mejaController.updMeja);
 router.get("/", mejaController.getMejas);
 router.get("/:id", mejaController.getMeja);
+router.delete("/delmany", mejaController.delMejaAll);
 router.delete("/del/:id", mejaController.delMeja);
 
 module.exports = router;

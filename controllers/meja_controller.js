@@ -1,3 +1,4 @@
+/** @type {import('mongoose').Model} */
 const { Meja } = require("../models/models");
 
 /*
@@ -40,10 +41,11 @@ exports.getMeja = async (req, res) => {
 };
 exports.updMeja = async (req, res) => {
     try {
-        const { nama_meja } = req.body;
+        const { nama_meja, status_meja } = req.body;
 
         await Meja.findByIdAndUpdate(req.params.id, {
             nama_meja,
+            status_meja,
         });
 
         const updatedMeja = await Meja.findById(req.params.id);
@@ -67,3 +69,14 @@ exports.delMeja = async (req, res) => {
         res.status(500).json({ message: err.message });
     }
 };
+
+exports.delMejaAll = async (req, res) => {
+    try {
+        await Meja.deleteMany();
+
+        res.status(200).json({ message: "Meja Deleted" });
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
+

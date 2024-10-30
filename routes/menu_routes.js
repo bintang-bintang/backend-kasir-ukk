@@ -8,6 +8,7 @@ const { IsAdmin } = require("../middlewares/role_validation");
 
 
 
+router.get("/nota", menuController.nota);
 router.post("/add",  menuController.createMenu);
 router.put("/upd/:id", menuController.updMenu);
 router.get("/", menuController.getMenus);

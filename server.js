@@ -29,6 +29,12 @@ app.use('/menu', menuRoutes);
 const authRoutes = require('./routes/auth_routes');
 app.use('/auth', authRoutes);
 
+const transaksiRoutes = require('./routes/transaksi_routes');
+app.use('/transaksi', transaksiRoutes);
+
+const detailmenuRoutes = require('./routes/detailmenu_routes');
+app.use('/detailmenu', detailmenuRoutes);
+
 app.get('/', (req, res) => {
     res.send('App API is running');
 });

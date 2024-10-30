@@ -23,7 +23,7 @@ Terdapat beberapa dependencies yang saya gunakan di dalam template ini, antara l
 4. cors "untuk mengizinkan akses API dari domain lain"
 5. express-validator "validasi dari input user"
 6. jsonwebtoken "membuat token verifikasi dan authentication"
-7. bcrypt "sebagai hashing utama"
+7. bcrypt "sebagai hashing / enkripsi utama"
 8. dotenv "menyimpan variabel dalam lingkungan .env"
 9. multer "untuk menangani upload file"
 <br/>
