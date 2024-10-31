@@ -9,7 +9,7 @@ const { IsAdmin } = require("../middlewares/role_validation");
 
 
 router.post("/",  transaksiController.addTransaksi);
-router.post("/:id",  transaksiController.handleBayarTransaksi);
+router.put("/bayar/:id",  transaksiController.handleBayarTransaksi);
 router.get("/",  transaksiController.getTransaksis);
 router.get("/:id",  transaksiController.getTransaksi);
 router.delete("/del",  transaksiController.deleteAllTransaksi);

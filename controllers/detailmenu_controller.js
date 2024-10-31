@@ -124,9 +124,11 @@ exports.getAllDetailmenu = async (req, res) => {
 exports.getByIdTransaksi = async (req, res) => {
     try {
         const { id } = req.params;
-        const detailTransaksi = await Detailmenu.findOne({ id_transaksi: id })
-            // .populate("id_transaksi")
-            // .populate("order_menu.id_menu");
+        const detailTransaksi = await Detailmenu.findOne({
+            id_transaksi: id,
+        }).populate("order_menu.id_menu");
+        // .populate("id_transaksi")
+        // .populate("order_menu.id_menu");
         res.status(200).send({
             message: "Success",
             length: detailTransaksi.length,

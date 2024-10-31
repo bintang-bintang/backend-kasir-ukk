@@ -1,4 +1,4 @@
-const { User, Meja, Traksaksi, Detailmenu } = require("../models/models");
+const { User, Meja, Transaksi, Detailmenu } = require("../models/models");
 
 exports.addTransaksi = async (req, res) => {
     try {
@@ -34,7 +34,7 @@ exports.addTransaksi = async (req, res) => {
             id_meja: dataMeja._id,
         };
 
-        const transaksiBaru = await Traksaksi.create(data);
+        const transaksiBaru = await Transaksi.create(data);
         // Update meja ketika menuju transaksi
         await Meja.findByIdAndUpdate(dataMeja._id, { status_meja: false });
 
@@ -56,13 +56,13 @@ exports.addTransaksi = async (req, res) => {
 exports.handleBayarTransaksi = async (req, res) => {
     try {
         const { id } = req.params;
-        const dataTransaksi = await Traksaksi.findById(id);
+        const dataTransaksi = await Transaksi.findById(id);
         const dataMeja = await Meja.findById(dataTransaksi.id_meja);
 
         await dataTransaksi.updateOne({ status_transaksi: "lunas" });
         await dataMeja.updateOne({ status_meja: true });
 
-        const updatedTransaksi = await Traksaksi.findById(id);
+        const updatedTransaksi = await Transaksi.findById(id);
 
         res.status(200).send({
             message: "Transaksi berhasil dibayar",
@@ -75,7 +75,7 @@ exports.handleBayarTransaksi = async (req, res) => {
 
 exports.getTransaksis = async (req, res) => {
     try {
-        const data = await Traksaksi.find()
+        const data = await Transaksi.find()
             .populate("id_user")
             .populate("id_meja");
         res.status(200).json({
@@ -89,7 +89,7 @@ exports.getTransaksis = async (req, res) => {
 };
 exports.getTransaksi = async (req, res) => {
     try {
-        const data = await Traksaksi.findById(req.params.id)
+        const data = await Transaksi.findById(req.params.id)
             .populate("id_user")
             .populate("id_meja");
         res.status(200).json({
@@ -104,7 +104,7 @@ exports.getTransaksi = async (req, res) => {
 
 exports.deleteAllTransaksi = async (req, res) => {
     try {
-        const transaksimenu = await Traksaksi.deleteMany({});
+        const transaksimenu = await Transaksi.deleteMany({});
         if (!transaksimenu) {
             return res.status(404).send({
                 message: "Transaksimenu not found",
