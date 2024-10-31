@@ -1,4 +1,6 @@
 const { User, Meja, Transaksi, Detailmenu } = require("../models/models");
+const PDFDocument = require("pdfkit");
+const fs = require("fs");
 
 exports.addTransaksi = async (req, res) => {
     try {
@@ -116,5 +118,77 @@ exports.deleteAllTransaksi = async (req, res) => {
         });
     } catch (error) {
         res.status(500).json({ message: error, a: "a" });
+    }
+};
+exports.PDFdetailTransaksi = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const transaksi = await Transaksi.findById(id)
+            .populate("id_user")
+            .populate("id_meja");
+
+        if (!transaksi) {
+            return res.status(404).json({ message: "Transaksi not found" });
+        }
+
+        const detailmenu = await Detailmenu.findOne({
+            id_transaksi: id,
+        }).populate("order_menu.id_menu");
+
+        const doc = new PDFDocument();
+        let filename = `transaksi_${id}.pdf`;
+        filename = encodeURIComponent(filename);
+        res.setHeader(
+            "Content-disposition",
+            `attachment; filename="${filename}"`
+        );
+        res.setHeader("Content-type", "application/pdf");
+
+        doc.pipe(res);
+
+        doc.fontSize(25).text("Wikusama Caffee", 100, 20);
+        doc.fontSize(25).text(`Transaksi ID:`, 100, 65);
+        doc.fontSize(25).text(`${transaksi._id}`, 100, 90);
+        doc.fontSize(20).text(
+            `Tanggal: ${new Date(transaksi.createdAt).toLocaleDateString(
+                "id-ID"
+            )}`,
+            100,
+            120
+        );
+        doc.fontSize(20).text(`Kasir: ${transaksi.id_user.username}`, 100, 160);
+        doc.fontSize(20).text(
+            `Nama Pelanggan: ${transaksi.nama_pelanggan}`,
+            100,
+            200
+        );
+        doc.fontSize(20).text(`Meja: ${transaksi.id_meja.nama_meja}`, 100, 240);
+        doc.fontSize(20).text(
+            `Status Pembayaran: ${transaksi.status_transaksi}`,
+            100,
+            280
+        );
+
+        doc.fontSize(20).text("Order Menu:", 100, 320);
+        let yPosition = 360;
+        let total = 0;
+        detailmenu.order_menu.forEach((item, index) => {
+            const itemTotal = item.kuantitas * item.id_menu.harga_menu;
+            total += itemTotal;
+            doc.fontSize(15).text(
+                `${index + 1}. ${item.id_menu.nama_menu} - ${
+                    item.kuantitas
+                } x Rp ${item.id_menu.harga_menu} = Rp ${itemTotal}`,
+                100,
+                yPosition
+            );
+            yPosition += 20;
+        });
+
+        doc.fontSize(20).text(`Total Harga: Rp ${total}`, 100, yPosition + 20);
+
+        doc.end();
+    } catch (error) {
+        res.status(500).json({ message: error.message });
     }
 };
